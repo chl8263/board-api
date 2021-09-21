@@ -35,7 +35,7 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: chl8263/demo-springboot
+          images: chl8263/ci-board-server          
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
