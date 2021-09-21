@@ -1,0 +1,62 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.117.128:5432/postgres
+    #url: jdbc:postgresql://192.168.117.128:5432/postgres
+    #url: jdbc:postgresql://169.254.6.176:5432/ps
+    username: postgres
+    password: 9303
+
+  # response bad request when api get value with out of bind
+#  jackson:
+#    deserialization:
+#      fail-on-unknown-properties: true
+
+  #  resources:
+  #    static-locations: ${project.base-dir}/src/main/resources/static/
+  #    cache:
+  #      period: 0
+  #  thymeleaf:
+  #    prefix: ${project.base-dir}/src/main/resources/templates/
+  #    cache: false
+#
+#  http:
+#    encoding:
+#      charset: UTF-8
+#      enabled: true
+#      force: true
+#
+#  jpa:
+#    hibernate:
+#      ddl-auto: create-drop
+#    properties:
+#      hibernate.format_sql: true
+#    show-sql: true
+#  output:
+#    ansi:
+#      enabled: always
+#
+#  h2:
+#    console:
+#      enabled: true
+#
+#my-app:
+#  adminAccountname: admin
+#  adminPassword: 123
+#  userAccountName: ewan
+#  userPassword: 123
+#  userAccountName2: ewan1
+#  userPassword2: 123
+##  testAdminUsername: test_ewan_admin
+##  testAdminPassword: 123
+##  testUserUsername: test_ewan_user
+##  testUserPassword: 123
+#
+#logging:
+#  level:
+#    org.springframework.web.client: DEBUG
+#    #    org.hibernate.SQL : DEBUG
+#    #    org.hibernate.type : trace
+#    org.hibernate.type.descriptor.sql : TRACE
