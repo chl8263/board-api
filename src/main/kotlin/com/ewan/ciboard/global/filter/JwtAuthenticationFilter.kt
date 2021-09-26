@@ -18,7 +18,7 @@ class JwtAuthenticationFilter(
 
     override fun attemptAuthentication(request: HttpServletRequest, response: HttpServletResponse): Authentication {
         val om = ObjectMapper()
-        val authDto = om.readValue(request?.reader, JwtAuthenticationDto::class.java)
+        val authDto = om.readValue(request.reader, JwtAuthenticationDto::class.java)
         val authenticationToken = UsernamePasswordAuthenticationToken(
             authDto.accountname,
             authDto.password
@@ -30,6 +30,7 @@ class JwtAuthenticationFilter(
     override fun successfulAuthentication(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain, authResult: Authentication) {
         val princialDetail = authResult.principal as PrincipalDetails
         val jwtToken = generateJwtToken(princialDetail.account)
+        println(jwtToken)
         response.addHeader("Authorization", "Bearer ${jwtToken}")
     }
 }

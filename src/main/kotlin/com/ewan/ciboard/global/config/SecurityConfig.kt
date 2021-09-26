@@ -3,6 +3,7 @@ package com.ewan.ciboard.global.config
 import com.ewan.ciboard.domain.account.repository.AccountRepository
 import com.ewan.ciboard.global.filter.JwtAuthenticationFilter
 import com.ewan.ciboard.global.filter.JwtAuthorizationFilter
+import com.ewan.ciboard.global.jwt.HeaderTokenExtractor
 import lombok.RequiredArgsConstructor
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -22,6 +23,8 @@ import org.springframework.web.filter.CorsFilter
 @RequiredArgsConstructor
 class SecurityConfig(
     private val corsFilter: CorsFilter,
+    private val accountRepository: AccountRepository,
+    private val headerTokenExtractor: HeaderTokenExtractor
 ) : WebSecurityConfigurerAdapter() {
 
     @Bean
@@ -49,7 +52,7 @@ class SecurityConfig(
     }
 
     private fun jwtAuthorizationFilter(): JwtAuthorizationFilter {
-        val filter = JwtAuthorizationFilter(authenticationManager())
+        val filter = JwtAuthorizationFilter(authenticationManager(), accountRepository, headerTokenExtractor)
         return filter
     }
 }

@@ -17,7 +17,7 @@ class JwtFactory {
         fun generateJwtToken(account: Account): String {
             return JWT.create()
                 .withIssuer(ISSUER)
-                .withExpiresAt(Date(System.currentTimeMillis() + EXPIRATION_TIME))
+                //.withExpiresAt(Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .withClaim(USER_ID, account.id)
                 .withClaim(USER_NAME, account.name)
                 .withClaim(USER_ROLE, account.role.name)
@@ -26,7 +26,6 @@ class JwtFactory {
 
         fun decodeJwt(jwtToken: String) {
             val username = JWT.require(Algorithm.HMAC256(SECRET)).build().verify(jwtToken).getClaim(USER_NAME).asString() ?: throw NullPointerException()
-
         }
     }
 }
