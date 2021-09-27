@@ -5,6 +5,7 @@ import com.ewan.ciboard.global.jwt.JwtFactory
 import com.ewan.ciboard.global.jwt.JwtProperties
 import com.ewan.ciboard.global.jwt.JwtProperties.BEARER_PREFIX
 import com.ewan.ciboard.global.jwt.JwtProperties.JWT_HEADER
+import mu.KotlinLogging
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -18,6 +19,8 @@ import javax.servlet.http.HttpServletResponse
 class JwtAuthorizationFilter(authenticationManager: AuthenticationManager,
                              private val tokenExtractor: HeaderTokenExtractor) : BasicAuthenticationFilter(authenticationManager) {
 
+    private val logger = KotlinLogging.logger {}
+
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain) {
         val jwtHeader = request.getHeader(JWT_HEADER)
         if(jwtHeader.isNullOrBlank() || !jwtHeader.startsWith(BEARER_PREFIX)){
@@ -26,7 +29,7 @@ class JwtAuthorizationFilter(authenticationManager: AuthenticationManager,
         }
 
         val jwtToken = tokenExtractor.extract(jwtHeader)
-        println("recevied token : ${jwtToken}")
+        logger.info { "Received token : ${jwtToken}" }
         val decodedJwtToken = JwtFactory.decodeJwt(jwtToken)
         val decodedUserName = decodedJwtToken.getClaim(JwtProperties.USER_NAME).asString() ?: throw RuntimeException()
         val decodedUserRole = decodedJwtToken.getClaim(JwtProperties.USER_ROLE).asString() ?: throw RuntimeException()

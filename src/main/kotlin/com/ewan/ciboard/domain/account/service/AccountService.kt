@@ -15,8 +15,6 @@ class AccountService(
 ) : UserDetailsService{
 
     override fun loadUserByUsername(username: String): UserDetails? {
-        println("byyyyyyy")
-        println(username)
         val account = accountRepository.findByName(username) ?: return null
         return PrincipalDetails(account)
     }

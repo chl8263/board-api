@@ -38,6 +38,9 @@ dependencies {
     implementation("org.postgresql:postgresql")
     implementation("com.h2database:h2")
 
+    //logging
+    implementation("io.github.microutils:kotlin-logging:1.12.5")
+
     //test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
