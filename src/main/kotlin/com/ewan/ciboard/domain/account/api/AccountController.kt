@@ -6,10 +6,7 @@ import com.ewan.ciboard.global.jwt.JwtFactory
 import lombok.RequiredArgsConstructor
 import org.springframework.security.access.annotation.Secured
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 @RequestMapping(value = ["/api/v1/account"])
@@ -20,7 +17,7 @@ class AccountController (
         ) {
 
     @PostMapping("/enroll")
-    fun enroll(account: Account): String {
+    fun enroll(@RequestBody account: Account): String {
         val rawPasswd = account.password
         val encodedPasswd = passwordEncoder.encode(rawPasswd)
         account.password = encodedPasswd

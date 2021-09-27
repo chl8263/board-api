@@ -23,14 +23,12 @@ class JwtAuthenticationFilter(
             authDto.accountname,
             authDto.password
         )
-        val authentication: Authentication = super.getAuthenticationManager().authenticate(authenticationToken)
-        return authentication
+        return super.getAuthenticationManager().authenticate(authenticationToken)
     }
 
     override fun successfulAuthentication(request: HttpServletRequest, response: HttpServletResponse, chain: FilterChain, authResult: Authentication) {
-        val princialDetail = authResult.principal as PrincipalDetails
-        val jwtToken = generateJwtToken(princialDetail.account)
-        println(jwtToken)
+        val principalDetail = authResult.principal as PrincipalDetails
+        val jwtToken = generateJwtToken(principalDetail.account)
         response.addHeader("Authorization", "Bearer ${jwtToken}")
     }
 }
