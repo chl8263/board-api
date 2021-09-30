@@ -5,6 +5,7 @@ import com.ewan.ciboard.global.filter.JwtAuthenticationFilter
 import com.ewan.ciboard.global.filter.JwtAuthorizationFilter
 import com.ewan.ciboard.global.jwt.HeaderTokenExtractor
 import lombok.RequiredArgsConstructor
+import org.springframework.boot.web.servlet.FilterRegistrationBean
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -16,8 +17,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.filter.CorsFilter
+
 
 @Configuration
 @EnableWebSecurity  // The SpringSecurity filter will join with Spring filter chain
@@ -41,11 +42,8 @@ class SecurityConfig(
             .and()
             .formLogin().disable()
             .httpBasic().disable()
-
             .addFilter(corsFilter)
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
             .addFilter(jwtAuthorizationFilter())
-
             .authorizeRequests()
             .antMatchers("${PREFIX_API_VER}/user/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
             .antMatchers("${PREFIX_API_VER}/admin/**").access("hasRole('ROLE_ADMIN')")
@@ -57,10 +55,13 @@ class SecurityConfig(
         web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**")
     }
 
-    private fun jwtAuthenticationFilter(): JwtAuthenticationFilter {
-        val filter = JwtAuthenticationFilter("/login")
-        filter.setAuthenticationManager(authenticationManager())
-        return filter
+    @Bean
+    fun filterRegistration(): FilterRegistrationBean<JwtAuthenticationFilter> {
+        val registration = FilterRegistrationBean<JwtAuthenticationFilter>()
+        registration.filter = JwtAuthenticationFilter(authenticationManager())
+        registration.addUrlPatterns("/login")
+        registration.setName("jwtFilter")
+        return registration
     }
 
     private fun jwtAuthorizationFilter(): JwtAuthorizationFilter {

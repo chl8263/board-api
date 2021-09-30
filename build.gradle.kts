@@ -41,6 +41,9 @@ dependencies {
     //logging
     implementation("io.github.microutils:kotlin-logging:1.12.5")
 
+    //jakson
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
+
     //test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")

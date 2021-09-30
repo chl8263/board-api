@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 data class JwtAuthenticationDto(
     @field:JsonProperty("accountname")
-    val accountname: String? = null,
+    val accountname: String,
 
     @field:JsonProperty("password")
-    var password: String? = null,
+    var password: String,
 )
